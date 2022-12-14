@@ -1,0 +1,5 @@
+# compiled
+/nvim/plugin/
+
+# misc
+.DS_Store
