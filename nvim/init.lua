@@ -69,6 +69,13 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    }
+  }
+
   -- sync plugins on initial install
   if is_bootstrap then
     require('packer').sync()
@@ -109,6 +116,9 @@ require("lualine").setup()
 -- enable which key
 require("which-key").setup()
 
+-- enable telescope
+require('telescope').setup()
+
 -- close file tree if last window
 vim.api.nvim_create_autocmd("BufEnter", {
   nested = true,
@@ -118,3 +128,27 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end
 })
+
+-- enable treesitter
+require('nvim-treesitter.configs').setup {
+  ensure_installed = { 'lua', 'typescript', 'help', 'svelte', 'javascript' },
+  highlight = { enable = true }
+}
+
+-- enable mason
+require("mason").setup()
+
+-- enable the following language servers
+local servers = { 'tsserver', 'svelte' }
+
+-- ensure the servers above are installed
+require('mason-lspconfig').setup {
+  ensure_installed = servers,
+}
+
+-- enable lsps
+require'lspconfig'.svelte.setup{}
+require'lspconfig'.tsserver.setup{}
+
+-- show lsp status information
+require('fidget').setup()
