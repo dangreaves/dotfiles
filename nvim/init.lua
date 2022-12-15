@@ -18,19 +18,6 @@ require('packer').startup(function(use)
   -- shows a popup after commands with possible key bindings
   use "folke/which-key.nvim"
 
-  -- LSP plugins
-  use {
-    'neovim/nvim-lspconfig',
-    requires = {
-      -- automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-
-      -- useful status updates for LSP
-      'j-hui/fidget.nvim',
-    }
-  }
-
   -- file tree
   use {
     'nvim-tree/nvim-tree.lua',
@@ -69,6 +56,10 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  -- code completion
+  use { 'neoclide/coc.nvim', branch = 'release' }
+
+  -- search
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
@@ -107,6 +98,9 @@ vim.opt.ignorecase = true
 vim.opt.termguicolors = true
 vim.cmd.colorscheme "catppuccin"
 
+-- install coc extensions
+vim.g.coc_global_extensions = {'coc-json', 'coc-git', 'coc-svelte', 'coc-tsserver'}
+
 -- enable file tree
 require("nvim-tree").setup()
 
@@ -134,21 +128,3 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = { 'lua', 'typescript', 'help', 'svelte', 'javascript' },
   highlight = { enable = true }
 }
-
--- enable mason
-require("mason").setup()
-
--- enable the following language servers
-local servers = { 'tsserver', 'svelte' }
-
--- ensure the servers above are installed
-require('mason-lspconfig').setup {
-  ensure_installed = servers,
-}
-
--- enable lsps
-require'lspconfig'.svelte.setup{}
-require'lspconfig'.tsserver.setup{}
-
--- show lsp status information
-require('fidget').setup()
