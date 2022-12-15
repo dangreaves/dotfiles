@@ -69,12 +69,21 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  -- search
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim'
     }
   }
+
+  -- git related plugins
+  use 'tpope/vim-fugitive'
+  use 'lewis6991/gitsigns.nvim'
+
+  use 'lukas-reineke/indent-blankline.nvim'  -- add indentation guides
+  use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
+  use 'tpope/vim-sleuth' -- detect tabstop and shiftwidth automatically
 
   -- sync plugins on initial install
   if is_bootstrap then
@@ -113,17 +122,15 @@ vim.wo.number = true
 -- enable the sign column to prevent jumping
 vim.wo.signcolumn = 'yes'
 
+require("lualine").setup() -- enable status line
+require("which-key").setup() -- enable which key
+require('telescope').setup() -- enable telescope
+require('gitsigns').setup() -- enable gitsigns
+require('indent_blankline').setup() -- enable indents
+require('Comment').setup() -- enable comments
+
 -- enable file tree
 require("nvim-tree").setup()
-
--- enable status line
-require("lualine").setup()
-
--- enable which key
-require("which-key").setup()
-
--- enable telescope
-require('telescope').setup()
 
 -- close file tree if last window
 vim.api.nvim_create_autocmd("BufEnter", {
