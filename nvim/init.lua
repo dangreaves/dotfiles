@@ -148,11 +148,18 @@ require('gitsigns').setup() -- enable gitsigns
 require('indent_blankline').setup() -- enable indents
 require('Comment').setup() -- enable comments
 
+-- enable status line
+require("lualine").setup({
+  options = {
+    globalstatus = true, -- show one global bar, instead of per buffer
+  }
+})
+
 -- enable file tree
 require("nvim-tree").setup({
   view = {
     width = 35,
-  }
+  },
 })
 
 -- close file tree if last window
