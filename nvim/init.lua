@@ -146,7 +146,11 @@ require('indent_blankline').setup() -- enable indents
 require('Comment').setup() -- enable comments
 
 -- enable file tree
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+  view = {
+    width = "30%",
+  }
+})
 
 -- close file tree if last window
 vim.api.nvim_create_autocmd("BufEnter", {
