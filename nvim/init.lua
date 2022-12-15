@@ -18,6 +18,19 @@ require('packer').startup(function(use)
   -- shows a popup after commands with possible key bindings
   use "folke/which-key.nvim"
 
+  -- lsp plugins
+  use {
+    'neovim/nvim-lspconfig',
+    requires = {
+      -- automatically install servers to stdpath for neovim
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+
+      -- useful status updates for lsp
+      'j-hui/fidget.nvim',
+    }
+  }
+
   -- file tree
   use {
     'nvim-tree/nvim-tree.lua',
@@ -56,10 +69,6 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
-  -- code completion
-  use { 'neoclide/coc.nvim', branch = 'release' }
-
-  -- search
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
@@ -87,19 +96,22 @@ end
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- enable line numbers
-vim.wo.number = true
-
 -- case insensitive searching unless /C or capital in search
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
+
+-- decrease update time
+vim.opt.updatetime = 250
 
 -- set colorscheme
 vim.opt.termguicolors = true
 vim.cmd.colorscheme "catppuccin"
 
--- install coc extensions
-vim.g.coc_global_extensions = {'coc-json', 'coc-git', 'coc-svelte', 'coc-tsserver'}
+-- enable line numbers
+vim.wo.number = true
+
+-- enable the sign column to prevent jumping
+vim.wo.signcolumn = 'yes'
 
 -- enable file tree
 require("nvim-tree").setup()
@@ -129,18 +141,20 @@ require('nvim-treesitter.configs').setup {
   highlight = { enable = true }
 }
 
--- configure coc
+-- enable mason
+require("mason").setup()
 
--- Some servers have issues with backup files, see #649
-vim.opt.backup = false
-vim.opt.writebackup = false
+-- enable the following language servers
+local servers = { 'tsserver', 'svelte' }
 
--- Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
--- delays and poor user experience
-vim.opt.updatetime = 300
+-- ensure the servers above are installed
+require('mason-lspconfig').setup {
+  ensure_installed = servers,
+}
 
--- Always show the signcolumn, otherwise it would shift the text each time
--- diagnostics appeared/became resolved
-vim.opt.signcolumn = "yes"
+-- enable lsps
+require'lspconfig'.svelte.setup{}
+require'lspconfig'.tsserver.setup{}
 
--- end configure coc
+-- show lsp status information
+require('fidget').setup()
