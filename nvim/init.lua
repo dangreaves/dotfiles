@@ -1,3 +1,6 @@
+-- source(s)
+-- https://github.com/nvim-lua/kickstart.nvim
+
 -- install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
