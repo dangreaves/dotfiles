@@ -1,7 +1,9 @@
 font:
   size: 15
   offset:
-    y: 3
+    y: 16
+  glyph_offset:
+    y: 8
   normal:
     family: Hack Nerd Font
     style: Regular
