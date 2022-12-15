@@ -151,7 +151,7 @@ require('Comment').setup() -- enable comments
 -- enable file tree
 require("nvim-tree").setup({
   view = {
-    width = "30%",
+    width = 35,
   }
 })
 
