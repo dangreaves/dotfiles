@@ -119,14 +119,14 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- case insensitive searching unless /C or capital in search
-vim.opt.smartcase = true
-vim.opt.ignorecase = true
+vim.o.smartcase = true
+vim.o.ignorecase = true
 
 -- decrease update time
-vim.opt.updatetime = 250
+vim.o.updatetime = 250
 
 -- set colorscheme
-vim.opt.termguicolors = true
+vim.o.termguicolors = true
 vim.cmd.colorscheme "catppuccin"
 
 -- enable line numbers
@@ -135,8 +135,11 @@ vim.wo.number = true
 -- enable the sign column to prevent jumping
 vim.wo.signcolumn = 'yes'
 
--- Set completeopt to have a better completion experience
-vim.opt.completeopt = 'menuone,noselect'
+-- set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- decrease the which-key timeout
+vim.o.timeoutlen = 500
 
 require("lualine").setup() -- enable status line
 require("which-key").setup() -- enable which key
