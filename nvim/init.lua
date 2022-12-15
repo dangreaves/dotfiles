@@ -34,6 +34,16 @@ require('packer').startup(function(use)
     }
   }
 
+  -- autocompletion
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip'
+    }
+  }
+
   -- file tree
   use {
     'nvim-tree/nvim-tree.lua',
@@ -162,9 +172,27 @@ require('mason-lspconfig').setup {
   ensure_installed = servers,
 }
 
+-- nvim-cmp supports additional completion capabilities
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 -- enable lsps
-require'lspconfig'.svelte.setup{}
-require'lspconfig'.tsserver.setup{}
+require'lspconfig'.svelte.setup{ capabilities = capabilities }
+require'lspconfig'.tsserver.setup{ capabilities = capabilities }
 
 -- show lsp status information
 require('fidget').setup()
+
+-- configure autocompletion
+local cmp = require 'cmp'
+local luasnip = require 'luasnip'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  source = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' }
+  })
+}
